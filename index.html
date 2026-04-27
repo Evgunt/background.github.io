@@ -54,16 +54,9 @@
             opacity: 0.8;
         }
     </style>
-<script>
-    // Скрипт для настройки громкости (0.5 — это 50%)
-    var audio = document.getElementById("loading-music");
-    audio.volume = 0.3; 
-</script>
 </head>
 <body>
-
     <div class="background"></div>
-
     <div class="overlay">
         <h1 class="server-name">SITE-L (Swallow)</h1>
         <p class="status">Загрузка ресурсов сервера...</p>
@@ -71,6 +64,13 @@
 <audio id="loading-music" autoplay loop>
     <source src="inc/fon.mp3" type="audio/mpeg">
 </audio>
-
+<script>
+    // Скрипт для настройки громкости (0.5 — это 50%)
+    var audio = document.getElementById("loading-music");
+    audio.volume = 0.3;
+    window.addEventListener('click', function() {
+        audio.play();
+    });
+</script>
 </body>
 </html>

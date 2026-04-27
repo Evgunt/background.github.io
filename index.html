@@ -71,6 +71,36 @@
     window.addEventListener('click', function() {
         audio.play();
     });
+    <script>
+    // Функция плавного затухания
+    function fadeOutAudio() {
+        var fadePoint = setInterval(function () {
+            // Если громкость больше 0.02, уменьшаем её
+            if (audio.volume > 0.02) {
+                audio.volume -= 0.02;
+            } else {
+                // Когда громкость почти на нуле, останавливаем музыку и таймер
+                audio.volume = 0;
+                audio.pause();
+                clearInterval(fadePoint);
+            }
+        }, 100); // Скорость затухания (каждые 0.1 сек)
+    }
+
+    // Специальные функции GMod для отслеживания загрузки
+    // Вызывается, когда клиент скачал все файлы и готов войти
+    function OnLoadFinished() {
+        fadeOutAudio();
+    }
+
+    // (Дополнительно) Функция, которую GMod вызывает при прогрессе
+    // Если нужно остановить музыку чуть раньше
+    function SetStatusChanged(status) {
+        if (status.indexOf("Sending client info") !== -1) {
+            fadeOutAudio();
+        }
+    }
+</script>
 </script>
 </body>
 </html>

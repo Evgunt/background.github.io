@@ -16,16 +16,28 @@
 
         /* Фоновое изображение */
         .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('inc/background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            z-index: 1;
-        }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('inc/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: 1;
+    
+    /* Добавляем это: название, длительность (20с), плавность, бесконечно, туда-обратно */
+    animation: slowZoom 20s ease-in-out infinite alternate;
+}
 
+/* Сценарий анимации */
+@keyframes slowZoom {
+    0% {
+        transform: scale(1); /* Обычный размер */
+    }
+    100% {
+        transform: scale(1.15); /* Увеличение на 15% */
+    }
+}
         /* Затемнение и контент */
         .overlay {
             position: relative;
@@ -65,42 +77,34 @@
     <source src="inc/fon.mp3" type="audio/mpeg">
 </audio>
 <script>
-    // Скрипт для настройки громкости (0.5 — это 50%)
     var audio = document.getElementById("loading-music");
     audio.volume = 0.3;
+
     window.addEventListener('click', function() {
         audio.play();
     });
-    <script>
-    // Функция плавного затухания
+
     function fadeOutAudio() {
         var fadePoint = setInterval(function () {
-            // Если громкость больше 0.02, уменьшаем её
             if (audio.volume > 0.02) {
                 audio.volume -= 0.02;
             } else {
-                // Когда громкость почти на нуле, останавливаем музыку и таймер
                 audio.volume = 0;
                 audio.pause();
                 clearInterval(fadePoint);
             }
-        }, 100); // Скорость затухания (каждые 0.1 сек)
+        }, 100);
     }
 
-    // Специальные функции GMod для отслеживания загрузки
-    // Вызывается, когда клиент скачал все файлы и готов войти
     function OnLoadFinished() {
         fadeOutAudio();
     }
 
-    // (Дополнительно) Функция, которую GMod вызывает при прогрессе
-    // Если нужно остановить музыку чуть раньше
     function SetStatusChanged(status) {
         if (status.indexOf("Sending client info") !== -1) {
             fadeOutAudio();
         }
     }
-</script>
 </script>
 </body>
 </html>
